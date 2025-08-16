@@ -1,0 +1,11 @@
+<h2>Moja Lista Zadań</h2>
+
+<ul>
+  @for (task of tasks; track task.id) {
+    <li>
+      {{ task.title }} (Status: {{ task.status }})
+    </li>
+  } @empty {
+    <li>Brak zadań do wyświetlenia.</li>
+  }
+</ul>
