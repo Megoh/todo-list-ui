@@ -1,6 +1,8 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TaskService} from '../../services/task.service';
+import {Auth} from '../../services/auth';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-task-list',
@@ -12,6 +14,9 @@ import {TaskService} from '../../services/task.service';
 
 export class TaskList implements OnInit {
   private taskService = inject(TaskService);
+  private auth = inject(Auth);
+  private router = inject(Router)
+
   tasks: any[] = [];
 
   ngOnInit(): void {
@@ -24,5 +29,11 @@ export class TaskList implements OnInit {
         console.error('Błąd podczas pobierania zadań:', err);
       }
     });
+  }
+
+  logout(): void {
+    this.auth.logout();
+    this.router.navigate(['/login']);
+    console.log('Wylogowano pomyślnie.');
   }
 }
