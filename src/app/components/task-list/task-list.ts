@@ -3,11 +3,12 @@ import {CommonModule} from '@angular/common';
 import {TaskService} from '../../services/task.service';
 import {Auth} from '../../services/auth';
 import {Router} from '@angular/router';
+import {TaskFormComponent} from '../task-form/task-form';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TaskFormComponent],
   templateUrl: './task-list.html',
   styleUrl: './task-list.scss'
 })
@@ -35,5 +36,10 @@ export class TaskList implements OnInit {
     this.auth.logout();
     this.router.navigate(['/login']);
     console.log('Wylogowano pomyślnie.');
+  }
+
+  onTaskCreated(newTask: any): void {
+    this.tasks.unshift(newTask);
+    console.log('Lista zadań zaktualizowana o nowe zadanie.');
   }
 }

@@ -1,6 +1,10 @@
 <button (click)="logout()">Wyloguj się</button>
 <hr>
 
+<app-task-form (taskCreated)="onTaskCreated($event)"></app-task-form>
+
+<hr>
+
 <h2>Moja Lista Zadań</h2>
 
 <ul>

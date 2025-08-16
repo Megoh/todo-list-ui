@@ -1,0 +1,21 @@
+<form (ngSubmit)="onSubmit()">
+  <h3>Dodaj nowe zadanie</h3>
+  <div>
+    <input
+      type="text"
+      name="title"
+      [(ngModel)]="newTask.title"
+      placeholder="Tytuł zadania"
+      required>
+  </div>
+  <br>
+  <div>
+    <textarea
+      name="description"
+      [(ngModel)]="newTask.description"
+      placeholder="Opis zadania"
+      required></textarea>
+  </div>
+  <br>
+  <button type="submit">Dodaj</button>
+</form>
