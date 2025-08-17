@@ -4,7 +4,7 @@
     <input
       type="text"
       name="title"
-      [(ngModel)]="newTask.title"
+      [(ngModel)]="taskData.title"
       placeholder="Tytuł zadania"
       required>
   </div>
@@ -12,10 +12,10 @@
   <div>
     <textarea
       name="description"
-      [(ngModel)]="newTask.description"
+      [(ngModel)]="taskData.description"
       placeholder="Opis zadania"
       required></textarea>
   </div>
   <br>
-  <button type="submit">Dodaj</button>
+  <button type="submit">{{ isEditing ? 'Zapisz zmiany' : 'Dodaj' }}</button>
 </form>

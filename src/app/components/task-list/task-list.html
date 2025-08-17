@@ -2,7 +2,11 @@
   <button (click)="logout()">Wyloguj się</button>
   <hr>
 
-  <app-task-form (taskCreated)="onTaskCreated($event)"></app-task-form>
+  <app-task-form
+    [taskToEdit]="selectedTask"
+    (taskCreated)="onTaskCreated($event)"
+    (taskUpdated)="onTaskUpdated($event)">
+  </app-task-form>
 
   <hr>
 
@@ -11,11 +15,12 @@
   <ul class="task-list">
     @for (task of tasks; track task.id) {
       <li>
-        {{ task.title }} (Status: {{ task.status }})
-        <button (click)="onDelete(task.id)">Usuń</button>
+        <span>{{ task.title }} (Status: {{ task.status }})</span>
+        <div class="task-actions">
+          <button class="btn-edit" (click)="onEdit(task)">Edytuj</button>
+          <button class="btn-delete" (click)="onDelete(task.id)">Usuń</button>
+        </div>
       </li>
-    } @empty {
-      <li>Brak zadań do wyświetlenia.</li>
     }
   </ul>
 </div>

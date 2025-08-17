@@ -1,4 +1,4 @@
-import {Component, EventEmitter, inject, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {TaskService} from '../../services/task.service';
@@ -12,26 +12,53 @@ import {TaskService} from '../../services/task.service';
 })
 
 export class TaskFormComponent {
-  newTask = {
+  @Input()
+  set taskToEdit(task: any | null) {
+    if (task) {
+      this.isEditing = true;
+      this.currentTaskId = task.id;
+      this.taskData = {title: task.title, description: task.description};
+    }
+  }
+
+  taskData = {
     title: '',
     description: ''
   };
+  isEditing = false;
+  currentTaskId: number | null = null;
 
   @Output() taskCreated = new EventEmitter<any>();
+  @Output() taskUpdated = new EventEmitter<any>();
 
   private taskService = inject(TaskService);
 
   onSubmit(): void {
-    this.taskService.createTask(this.newTask).subscribe({
-      next: (createdTask) => {
-        console.log('Zadanie stworzone pomyślnie!', createdTask);
-        this.taskCreated.emit(createdTask);
-        this.newTask.title = '';
-        this.newTask.description = '';
-      },
-      error: (err) => {
-        console.error('Błąd podczas tworzenia zadania:', err);
-      }
-    });
+    if (this.isEditing) {
+      if (!this.currentTaskId) return;
+      this.taskService.updateTask(this.currentTaskId, this.taskData).subscribe({
+        next: (updatedTask) => {
+          console.log('Zadanie zaktualizowane!', updatedTask);
+          this.taskUpdated.emit(updatedTask);
+          this.resetForm();
+        },
+        error: (err) => console.error('Błąd podczas aktualizacji:', err)
+      });
+    } else {
+      this.taskService.createTask(this.taskData).subscribe({
+        next: (createdTask) => {
+          console.log('Zadanie stworzone!', createdTask);
+          this.taskCreated.emit(createdTask);
+          this.resetForm();
+        },
+        error: (err) => console.error('Błąd podczas tworzenia:', err)
+      });
+    }
+  }
+
+  resetForm(): void {
+    this.isEditing = false;
+    this.currentTaskId = null;
+    this.taskData = { title: '', description: '' };
   }
 }

@@ -11,12 +11,16 @@ export class TaskService {
   constructor(private http: HttpClient) {
   }
 
+  createTask(taskData: { title: string, description: string }): Observable<any> {
+    return this.http.post(this.apiUrl, taskData);
+  }
+
   getTasks(): Observable<any> {
     return this.http.get<any>(this.apiUrl);
   }
 
-  createTask(taskData: { title: string, description: string }): Observable<any> {
-    return this.http.post(this.apiUrl, taskData);
+  updateTask(taskId: number, taskData: { title: string, description: string }): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${taskId}`, taskData);
   }
 
   deleteTask(taskId: number): Observable<void> {

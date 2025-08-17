@@ -19,6 +19,7 @@ export class TaskList implements OnInit {
   private router = inject(Router)
 
   tasks: any[] = [];
+  selectedTask: any | null = null;
 
   ngOnInit(): void {
     if (this.auth.isLoggedIn()) {
@@ -55,5 +56,19 @@ export class TaskList implements OnInit {
         console.error(`Błąd podczas usuwania zadania o ID ${taskId}:`, err);
       }
     });
+  }
+
+  onEdit(task: any): void {
+    this.selectedTask = {...task};
+    console.log('Wybrano zadanie do edycji:', this.selectedTask);
+  }
+
+  onTaskUpdated(updatedTask: any): void {
+    const index = this.tasks.findIndex(task => task.id === updatedTask.id);
+    if (index !== -1) {
+      this.tasks[index] = updatedTask;
+    }
+    this.selectedTask = null;
+    console.log('Lista zadań zaktualizowana po edycji.');
   }
 }
