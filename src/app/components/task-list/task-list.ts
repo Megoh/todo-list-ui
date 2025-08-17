@@ -21,15 +21,17 @@ export class TaskList implements OnInit {
   tasks: any[] = [];
 
   ngOnInit(): void {
-    this.taskService.getTasks().subscribe({
-      next: (response) => {
-        this.tasks = response.content;
-        console.log('Pobrano zadania w TaskList!', this.tasks);
-      },
-      error: (err) => {
-        console.error('Błąd podczas pobierania zadań:', err);
-      }
-    });
+    if (this.auth.isLoggedIn()) {
+      this.taskService.getTasks().subscribe({
+        next: (response) => {
+          this.tasks = response.content;
+          console.log('Pobrano zadania w TaskListComponent!', this.tasks);
+        },
+        error: (err) => {
+          console.error('Błąd podczas pobierania zadań:', err);
+        }
+      });
+    }
   }
 
   logout(): void {
