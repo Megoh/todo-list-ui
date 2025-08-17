@@ -11,6 +11,7 @@
   @for (task of tasks; track task.id) {
     <li>
       {{ task.title }} (Status: {{ task.status }})
+      <button (click)="onDelete(task.id)">Usuń</button>
     </li>
   } @empty {
     <li>Brak zadań do wyświetlenia.</li>

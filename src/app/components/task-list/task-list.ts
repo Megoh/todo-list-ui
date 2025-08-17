@@ -44,4 +44,16 @@ export class TaskList implements OnInit {
     this.tasks.unshift(newTask);
     console.log('Lista zadań zaktualizowana o nowe zadanie.');
   }
+
+  onDelete(taskId: number): void {
+    this.taskService.deleteTask(taskId).subscribe({
+      next: () => {
+        console.log(`Zadanie o ID ${taskId} usunięte pomyślnie.`);
+        this.tasks = this.tasks.filter(task => task.id !== taskId);
+      },
+      error: (err) => {
+        console.error(`Błąd podczas usuwania zadania o ID ${taskId}:`, err);
+      }
+    });
+  }
 }
