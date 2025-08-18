@@ -12,13 +12,13 @@
 
   <h2>Moja Lista Zadań</h2>
 
-  <ul class="task-list">
+  <ul class="card">
     @for (task of tasks; track task.id) {
       <li>
         <span>{{ task.title }} (Status: {{ task.status }})</span>
         <div class="task-actions">
-          <button class="btn-edit" (click)="onEdit(task)">Edytuj</button>
-          <button class="btn-delete" (click)="onDelete(task.id)">Usuń</button>
+          <button class="btn-secondary" (click)="onEdit(task)">Edytuj</button>
+          <button class="btn-danger" (click)="onDelete(task.id)">Usuń</button>
         </div>
       </li>
     }
