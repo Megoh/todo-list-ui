@@ -4,6 +4,7 @@ import {TaskService} from '../../services/task.service';
 import {Auth} from '../../services/auth';
 import {Router} from '@angular/router';
 import {TaskFormComponent} from '../task-form/task-form';
+import {Task} from '../../models/task';
 
 @Component({
   selector: 'app-task-list',
@@ -18,8 +19,8 @@ export class TaskList implements OnInit {
   private auth = inject(Auth);
   private router = inject(Router)
 
-  tasks: any[] = [];
-  selectedTask: any | null = null;
+  tasks: Task[] = [];
+  selectedTask: Task | null = null;
 
   ngOnInit(): void {
     if (this.auth.isLoggedIn()) {
@@ -41,9 +42,23 @@ export class TaskList implements OnInit {
     console.log('Wylogowano pomyślnie.');
   }
 
-  onTaskCreated(newTask: any): void {
+  onTaskCreated(newTask: Task): void {
     this.tasks.unshift(newTask);
     console.log('Lista zadań zaktualizowana o nowe zadanie.');
+  }
+
+  onEdit(task: Task): void {
+    this.selectedTask = {...task};
+    console.log('Wybrano zadanie do edycji:', this.selectedTask);
+  }
+
+  onTaskUpdated(updatedTask: Task): void {
+    const index = this.tasks.findIndex(task => task.id === updatedTask.id);
+    if (index !== -1) {
+      this.tasks[index] = updatedTask;
+    }
+    this.selectedTask = null;
+    console.log('Lista zadań zaktualizowana po edycji.');
   }
 
   onDelete(taskId: number): void {
@@ -56,19 +71,5 @@ export class TaskList implements OnInit {
         console.error(`Błąd podczas usuwania zadania o ID ${taskId}:`, err);
       }
     });
-  }
-
-  onEdit(task: any): void {
-    this.selectedTask = {...task};
-    console.log('Wybrano zadanie do edycji:', this.selectedTask);
-  }
-
-  onTaskUpdated(updatedTask: any): void {
-    const index = this.tasks.findIndex(task => task.id === updatedTask.id);
-    if (index !== -1) {
-      this.tasks[index] = updatedTask;
-    }
-    this.selectedTask = null;
-    console.log('Lista zadań zaktualizowana po edycji.');
   }
 }

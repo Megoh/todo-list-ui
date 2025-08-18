@@ -2,6 +2,7 @@ import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {TaskService} from '../../services/task.service';
+import {Task} from '../../models/task';
 
 @Component({
   selector: 'app-task-form',
@@ -13,7 +14,7 @@ import {TaskService} from '../../services/task.service';
 
 export class TaskFormComponent {
   @Input()
-  set taskToEdit(task: any | null) {
+  set taskToEdit(task: Task | null) {
     if (task) {
       this.isEditing = true;
       this.currentTaskId = task.id;
@@ -28,8 +29,8 @@ export class TaskFormComponent {
   isEditing = false;
   currentTaskId: number | null = null;
 
-  @Output() taskCreated = new EventEmitter<any>();
-  @Output() taskUpdated = new EventEmitter<any>();
+  @Output() taskCreated = new EventEmitter<Task>();
+  @Output() taskUpdated = new EventEmitter<Task>();
 
   private taskService = inject(TaskService);
 

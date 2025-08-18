@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {Page} from '../models/page';
+import {Task} from '../models/task';
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +13,16 @@ export class TaskService {
   constructor(private http: HttpClient) {
   }
 
-  createTask(taskData: { title: string, description: string }): Observable<any> {
-    return this.http.post(this.apiUrl, taskData);
+  createTask(taskData: { title: string, description: string }): Observable<Task> {
+    return this.http.post<Task>(this.apiUrl, taskData);
   }
 
-  getTasks(): Observable<any> {
-    return this.http.get<any>(this.apiUrl);
+  getTasks(): Observable<Page> {
+    return this.http.get<Page>(this.apiUrl);
   }
 
-  updateTask(taskId: number, taskData: { title: string, description: string }): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${taskId}`, taskData);
+  updateTask(taskId: number, taskData: { title: string, description: string }): Observable<Task> {
+    return this.http.put<Task>(`${this.apiUrl}/${taskId}`, taskData);
   }
 
   deleteTask(taskId: number): Observable<void> {
